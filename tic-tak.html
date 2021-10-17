@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tak Toe</title>
+</head>
+<style>
+    * {
+        padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;
+    }
+
+    .header {
+        background-color: rgb(236, 236, 236);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 100px;
+        padding: 0px 20px;
+    }
+
+    .font {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .header_gamename {
+        color: black;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    .header_game_details,
+    .game_details_section {
+        padding: 0px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .game_details_section{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .playerone_details,
+    .playertwo_details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .playone_name,
+    .playtwo_name {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .game_section {
+        height: 400px;
+        width: 100%;
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .game_panel {
+        background: radial-gradient(rgb(162, 80, 238), rgb(189, 101, 189));
+        max-height: 400px;
+        height: 100%;
+        max-width: 400px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 33.3333%);
+        grid-template-rows: repeat(3, 33.3333%);
+    }
+
+    .game_box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 25px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        border: 1px solid white;
+    }
+
+    .game_box:hover {
+        background-color: purple;
+    }
+
+    .game_text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .turn_icon {
+        color: red;
+    }
+
+    .enter_details_panel,
+    .message_popup {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgba(0, 0, 0, 0.425);
+        display: none;
+    }
+
+    .user_details,
+    .message_details {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        border-radius: 15px;
+        background-color: white;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    .input_field {
+        padding: 20px;
+        border: none;
+        background-color: rgb(241, 241, 241);
+        width: 100%;
+        border-radius: 20px;
+        color: blueviolet;
+        font-size: 25px;
+        outline: none;
+    }
+
+    .form_button {
+        width: 100%;
+        padding: 25px;
+        border-radius: 20px;
+        background-image: linear-gradient(rgb(162, 80, 238), rgb(189, 101, 189));
+        border: none;
+        margin-top: 20px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s linear;
+    }
+
+    .form_button:hover {
+        background-image: linear-gradient(20deg, rgb(162, 80, 238), rgb(189, 101, 189));
+    }
+    @media screen and (max-width : 1050px){
+        .header{
+            flex-direction: column;
+        }
+        .header_game_details{
+            flex-direction: column;
+        }
+    }
+</style>
+
+<body>
+    <div class="header">
+        <div class="header_gamename">
+            <h1>Tic Tac Toe</h1>
+        </div>
+        <div class="header_game_details" style="align-items: center;">
+            <div class="details" style="display: flex;">
+                <div class="playerone_details">
+                    <div class="playone_name">
+                        <h4 class="font" style="color: orangered;">Player One</h4>
+                        <span style="margin-left: 10px; display: flex; align-items: center;">
+                            <div id="p1_name"></div>
+                            <span class="turn_icon" id="playone_turn"></span>
+                        </span>
+                    </div>
+                    <div
+                        style="display: flex; flex-direction: row; justify-content: center; margin-top: 10px; font-weight: bold;">
+                        <h4 style="margin-right: 10px;">Score</h4>
+                        <span class="plone_score"></span>
+                    </div>
+                </div>
+                <span style="margin: 0px 20px; font-size: 40px;">VS</span>
+                <div class="playertwo_details">
+                    <div class="playtwo_name">
+                        <h4 class="font" style="color: orangered;">Player Two</h4>
+                        <span style="margin-left: 10px;  display: flex; align-items: center;">
+                            <div id="p2_name"></div>
+                            <span class="turn_icon" id="playtwo_turn"></span>
+                        </span>
+                    </div>
+                    <div
+                        style="display: flex; flex-direction: row; justify-content: center; margin-top: 10px; font-weight: bold;">
+                        <h4 style="margin-right: 10px;">Score</h4>
+                        <span class="pltwo_score"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="reset_button">
+                <input type="button" id="reset_game" class="form_button"
+                style="width: auto; margin-top: 0px; margin-left: 20px;" value="Reset Game" />
+            </div>
+        </div>
+    </div>
+
+    <div class="game_section">
+        <div class="game_panel">
+            <div class="game_box">
+                <div class="game_text"></div>
+            </div>
+            <div class="game_box">
+                <div class="game_text"></div>
+            </div>
+            <div class="game_box">
+                <div class="game_text"></div>
+            </div>
+            <div class="game_box">
+                <div class="game_text"></div>
+            </div>
+            <div class="game_box">
+                <div class="game_text"></div>
+            </div>
+            <div class="game_box">
+                <div class="game_text"></div>
+            </div>
+            <div class="game_box">
+                <div class="game_text"></div>
+            </div>
+            <div class="game_box">
+                <div class="game_text"></div>
+            </div>
+            <div class="game_box">
+                <div class="game_text"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="enter_details_panel" id="enter_details_panel">
+        <div class="user_details">
+            <h1
+                style="text-transform: capitalize; text-align: center; font-size: 35px; font-family: 'Courier New', Courier, monospace;">
+                Enter user details</h1>
+            <div style="margin-top: 40px;">
+                <form action="" method="post" id="user_form">
+                    <input type="text" placeholder="Player One" class="input_field" id="pone_name" value="Player One" />
+                    <input type="text" placeholder="Player Two" class="input_field" style="margin-top: 20px;"
+                        id="ptwo_name" value="Player Two" />
+                    <input type="button" value="Continue" class="form_button" id="add_user" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="message_popup" id="message_popup">
+        <div class="message_details">
+            <div class="game_details_section" style="align-items: center;">
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <div class="details">
+                        <div class="playerone_details">
+                            <div class="playone_name">
+                                <h4 class="font" style="color: orangered;">Player One</h4>
+                                <span style="margin-left: 10px; display: flex; align-items: center;">
+                                    <div id="player1_name"></div>
+                                </span>
+                            </div>
+                            <div
+                                style="display: flex; flex-direction: row; justify-content: center; margin-top: 10px; font-weight: bold;">
+                                <h4 style="margin-right: 10px;">Score</h4>
+                                <span class="plone_score"></span>
+                            </div>
+                        </div>
+                        <span style="margin: 0px 20px; font-size: 40px;">VS</span>
+                        <div class="playertwo_details">
+                            <div class="playtwo_name">
+                                <h4 class="font" style="color: orangered;">Player Two</h4>
+                                <span style="margin-left: 10px;  display: flex; align-items: center;">
+                                    <div id="player2_name"></div>
+                                </span>
+                            </div>
+                            <div
+                                style="display: flex; flex-direction: row; justify-content: center; margin-top: 10px; font-weight: bold;">
+                                <h4 style="margin-right: 10px;">Score</h4>
+                                <span class="pltwo_score"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="winning_image">
+                        <img src="../Desktop/winning-dance.gif" width="200px" alt="">
+                    </div>
+                </div>
+                <div id="buttons_section" style="width: 100%; display: flex; align-items : center; justify-content : space-between;">
+                    <input type="button" id="close" value="Close" class="form_button" />
+                    <input type="button" id="re_challenge" value="Again" class="form_button" />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="tic-tak.js"></script>
+
+</html>
